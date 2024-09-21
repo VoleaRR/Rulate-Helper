@@ -53,7 +53,7 @@ function createRefreshTrackBalanceButton() {
     const button = document.createElement('button');
     button.style.width = '16px';
     button.style.height = '16px';
-    button.style.padding = '0';
+    button.style.paddingLeft = '0';
     button.style.border = 'none';
     button.style.background = 'none';
     button.style.cursor = 'pointer';

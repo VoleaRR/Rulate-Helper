@@ -23,6 +23,40 @@
         <div class="settings">
             <!-- Toggle Switch -->
 
+            <div class="category-level">
+                Общие
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Трекинг баланса за 24 часа
+                    <button class="info-button" data-video-src="../images/webm/track-balance.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="balance-tracking" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для поиска книг через Яндекс поисковик
+                    <button class="info-button" data-video-src="../images/webm/yandex-search.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="redirect-to-yandex-search" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="category-level">
+                Каталог книг (+страница пользователя)
+            </div>
+
             <div class="setting-item">
                 <span class="description">
                     Кнопка для перехода в настройки книги со страницы пользователя
@@ -50,10 +84,6 @@
                 </label>
             </div>
 
-            <div class="category-level">
-                Реклама
-            </div>
-
             <div class="setting-item">
                 <span class="description">
                     Кнопка для перехода к статистике книги со страницы пользователя (в случае, если вы не
@@ -70,21 +100,6 @@
 
             <div class="setting-item">
                 <span class="description">
-                    Кнопка для копирования в буфер обмена айди пользователя из комментариев, как на книге, так
-                    и внутри главы
-                    <button class="info-button" data-video-src="../images/webm/copyable-user-id.webm">
-                        <img src="../images/question_mark.png" alt="Info">
-                    </button>
-                </span>
-                <label class="switch">
-                    <input id="copyable-user-id" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-
-            <div class="setting-item">
-                <span class="description">
                     Кнопка для копирования в буфер обмена айди книги из страница пользователя, так и со страницы
                     книги
                     <button class="info-button" data-video-src="../images/webm/copyable-book-id.webm">
@@ -97,6 +112,25 @@
                 </label>
             </div>
 
+            <div class="category-level">
+                Страница книги
+            </div>
+
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для копирования в буфер обмена айди пользователя из комментариев, как на книге, так
+                    и внутри главы
+                    <button class="info-button" data-video-src="../images/webm/copyable-user-id.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="copyable-user-id" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
             <div class="setting-item">
                 <span class="description">
                     Кнопка для перехода в телеграм бота, где удобно скачивать книги
@@ -110,31 +144,6 @@
                 </label>
             </div>
 
-            <div class="setting-item">
-                <span class="description">
-                    Кнопка для поиска книг через Яндекс поисковик
-                    <button class="info-button" data-video-src="../images/webm/yandex-search.webm">
-                        <img src="../images/question_mark.png" alt="Info">
-                    </button>
-                </span>
-                <label class="switch">
-                    <input id="redirect-to-yandex-search" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="setting-item">
-                <span class="description">
-                    Трекинг баланса за 24 часа
-                    <button class="info-button" data-video-src="../images/webm/track-balance.webm">
-                        <img src="../images/question_mark.png" alt="Info">
-                    </button>
-                </span>
-                <label class="switch">
-                    <input id="balance-tracking" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
 
             <div class="setting-item">
                 <span class="description">
@@ -148,6 +157,55 @@
                     <input id="thanks-count" type="checkbox">
                     <span class="slider"></span>
                 </label>
+            </div>
+
+                        
+            <div class="category-level">
+                Реклама
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для быстрой покупки рекламы
+                    <button class="info-button" data-video-src="...">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="fast-buy-adv" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Тип рекламы для быстрой покупки
+                </span>
+                <select id="adv-type" class="dropdown">
+                    <option value="recomendation">Вывести в рекомендации</option>
+                </select>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Количество рекламных дней к покупке 
+                </span>
+                <input id="buy-adv-days-count" type="number" min="1" placeholder="Введите число">
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Авто-подтверждение покупки
+                </span>
+                <label class="switch">
+                    <input id="fast-buy-auto-complete" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            
+            <div class="category-level">
+                Прочие
             </div>
 
             <div class="setting-item">

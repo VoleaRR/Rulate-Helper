@@ -1,6 +1,6 @@
 {
   "name": "Rulate Helper",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "kimyonavl@gmail.com",
   "manifest_version": 3,
   "description": "It is a helper for the translators of the Rulate website. Created by VolteaRR",
@@ -69,14 +69,6 @@
       ],
       "matches": [
         "https://tl.rulate.ru/users/*/stat_referrals?by=1"
-      ]
-    },
-    {
-      "js": [
-        "test_reclama.js"
-      ],
-      "matches": [
-        "https://tl.rulate.ru/book/*/edit/info"
       ]
     }
   ]

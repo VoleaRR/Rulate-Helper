@@ -1,5 +1,3 @@
-// let userSettings;
-
 loadSettings().then(() => {
     handleReferralsPage();
 });

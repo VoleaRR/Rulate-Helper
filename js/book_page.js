@@ -24,11 +24,105 @@ function handleBookPage() {
         setCopyableUserId()
 
     } else if (bookEditPageRegex.test(currentUrl)) {
-        console.log("Это страница настроек книги");
+        handleBookSettingsPage();
 
     } else {
         console.log("Это не одна из ожидаемых страниц");
     }
+}
+
+function handleBookSettingsPage() {
+    chrome.storage.local.get(['buyAdvData'], (result) => {
+        if (result.buyAdvData) {
+            const createdAt = result.buyAdvData.createdAt;
+            const currentTime = Date.now();
+            const timeDifference = (currentTime - createdAt) / 1000;
+
+            if (timeDifference < 30) {
+                buyAdvertisementOnBook();
+            } else {
+                console.log('Прошло больше 30 секунд, действие не выполнено.');
+            }
+
+            chrome.storage.local.remove('buyAdvData', () => {
+                console.log('Объект buyAdv был удален.');
+            });
+        }
+    });
+}
+
+function buyAdvertisementOnBook() {
+    document.getElementById('advert_site-tab').click();
+
+    const advDates = getFormattedDates();
+    const advInputs = getAdvInputs();
+
+    if (isInputsNotAllowed(advInputs)) {
+        console.log("Кнопка какая-то занята числом. Скип")
+        return
+    };
+
+    advInputs.startInput.value = advDates.startAdv;
+    advInputs.endInput.value = advDates.endAdv;
+
+    clickToBuyAdv();
+    
+}
+
+function isInputsNotAllowed(inputs) {
+    // Если в одной из кнопок уже есть какое-то значение, значит реклама там куплена и мы не можем ничего
+    // сделать, поэтому возвращаем true, то есть NotAllowed и скипаем
+    if (inputs.startInput.value || inputs.endInput.value) return true;
+}
+
+function clickToBuyAdv() {
+    if (!userSettings.isAdvBuyAutoComplete) return;
+
+    let acceptButton;
+    if (userSettings.advType === "recomendation") {
+        acceptButton = document.querySelector('button[name="yt0"]')
+    }
+
+    acceptButton.scrollIntoView();
+    acceptButton.click();
+}
+
+function getAdvInputs() {
+    let startInput;
+    let endInput;
+
+    if (userSettings.advType === "recomendation") {
+        startInput = document.querySelector('input[name="recom-start"]');
+        endInput = document.querySelector('input[name="recom-end"]');
+    }
+
+    return {
+        startInput,
+        endInput
+    }
+}
+
+function getFormattedDates() {
+    const now = new Date().toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    const currentDate = new Date(now);
+
+    let startAdv = new Date(currentDate);
+    startAdv.setDate(currentDate.getDate() + 1);
+
+    let endAdv = new Date(currentDate);
+    endAdv.setDate(currentDate.getDate() + userSettings.buyAdvDaysCount);
+
+    function formatDate(date) {
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // месяцы с 0
+        let day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    return {
+        startAdv: formatDate(startAdv),
+        endAdv: formatDate(endAdv)
+    };
 }
 
 function setCopyableUserId() {
