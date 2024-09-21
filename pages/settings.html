@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rulate Helper Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Rulate Helper</h1>
+            <span class="extension-version"></span>
+            <!-- Social Media Buttons -->
+            <div class="social-media">
+                <a href="https://t.me/RulateHelper" ; target="_blank"><img src="../images/telegram.png"></a>
+                <a href="https://tl.rulate.ru/users/286700" ; target="_blank"><img src="../images/rulate.png"></a>
+            </div>
+        </header>
+
+        <div class="settings">
+            <!-- Toggle Switch -->
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для перехода в настройки книги со страницы пользователя
+                    <button class="info-button" data-video-src="../images/webm/open-settings.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="open-settings" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Показывает сколько времени прошлой с последней активности на книге в днях и добавляет
+                    кнопку "Написать админу"
+                    <button class="info-button" data-video-src="../images/webm/last-activity.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="last-activity" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="category-level">
+                Реклама
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для перехода к статистике книги со страницы пользователя (в случае, если вы не
+                    создатель, но вам открыта статистика книги)
+                    <button class="info-button" data-video-src="../images/webm/open-statistics.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="open-statistics" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для копирования в буфер обмена айди пользователя из комментариев, как на книге, так
+                    и внутри главы
+                    <button class="info-button" data-video-src="../images/webm/copyable-user-id.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="copyable-user-id" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для копирования в буфер обмена айди книги из страница пользователя, так и со страницы
+                    книги
+                    <button class="info-button" data-video-src="../images/webm/copyable-book-id.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="copyable-book-id" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для перехода в телеграм бота, где удобно скачивать книги
+                    <button class="info-button" data-video-src="../images/webm/redirect-elib.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="redirect-to-elib-tg" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Кнопка для поиска книг через Яндекс поисковик
+                    <button class="info-button" data-video-src="../images/webm/yandex-search.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="redirect-to-yandex-search" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Трекинг баланса за 24 часа
+                    <button class="info-button" data-video-src="../images/webm/track-balance.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="balance-tracking" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Видимость "спасибо" на чужих книгах. На книгах с большим кол-вом глав может вызвать
+                    временное провисание сайта
+                    <button class="info-button" data-video-src="../images/webm/thanks-count.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="thanks-count" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <span class="description">
+                    Показ суммы заработанных денег с рефералов
+                    <button class="info-button" data-video-src="../images/webm/referrals-summary.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <label class="switch">
+                    <input id="referrals-summary" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+
+            <!-- Checkbox Group -->
+            <!-- <div class="setting-item">
+                <span class="description">
+                    Auto-update filters
+                    <button class="info-button" data-video-src="../videos/gojo-toji.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <select id="filters" class="dropdown">
+                    <option value="default">Default</option>
+                    <option value="48hours">48 hours</option>
+                    <option value="24hours">24 hours</option>
+                    <option value="12hours">12 hours</option>
+                    <option value="6hours">6 hours</option>
+                </select>
+            </div> -->
+
+            <!-- Number Input -->
+            <!-- <div class="setting-item">
+                <span class="description">
+                    Set the number
+                    <button class="info-button" data-video-src="../videos/gojo-toji.webm">
+                        <img src="../images/question_mark.png" alt="Info">
+                    </button>
+                </span>
+                <input id="days-count" type="number" min="1" placeholder="Введите число">
+            </div> -->
+
+        </div>
+
+        <!-- Save Button -->
+        <div class="save-button-container">
+            <button id="save-settings">Сохранить</button>
+            <img id="save-confirmation" src="../images/check.png" alt="Сохранено" />
+        </div>
+
+        <!-- Modal для показа гифок -->
+        <div id="video-modal" class="modal">
+            <div class="modal-content">
+                <video id="video-element" controls autoplay loop></video>
+            </div>
+        </div>
+    </div>
+
+    <script src="settings_handler.js"></script>
+</body>
+
+</html>

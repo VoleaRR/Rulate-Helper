@@ -1,0 +1,83 @@
+{
+  "name": "Rulate Helper",
+  "version": "1.4.0",
+  "author": "kimyonavl@gmail.com",
+  "manifest_version": 3,
+  "description": "It is a helper for the translators of the Rulate website. Created by VolteaRR",
+  "action": {},
+  "icons": {
+    "16": "images/icons/logo.png",
+    "32": "images/icons/logo.png",
+    "48": "images/icons/logo.png",
+    "64": "images/icons/logo.png",
+    "128": "images/icons/logo.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "js/service_worker.js"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "js/settings_declare.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/*"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "js": [
+        "js/whole_site.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/*"
+      ]
+    },
+    {
+      "js": [
+        "js/books_catalog.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/users/*",
+        "https://tl.rulate.ru/search*"
+      ]
+    },
+    {
+      "js": [
+        "js/book_page.js",
+        "js/likes_module.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/book/*"
+      ]
+    },
+    {
+      "js": [
+        "js/admin_dialog.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/messages/chat/8*"
+      ]
+    },
+    {
+      "js": [
+        "js/stat_referrals.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/users/*/stat_referrals?by=1"
+      ]
+    },
+    {
+      "js": [
+        "test_reclama.js"
+      ],
+      "matches": [
+        "https://tl.rulate.ru/book/*/edit/info"
+      ]
+    }
+  ]
+}
