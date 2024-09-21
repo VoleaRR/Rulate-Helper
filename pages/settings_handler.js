@@ -52,11 +52,15 @@ function getSettingElementsFromDOM() {
     const isBalanceTracking = document.getElementById('balance-tracking');
     const isShowThanksCount = document.getElementById('thanks-count');
     const isReferralsSummary = document.getElementById('referrals-summary');
+    const isFastBuyAdv = document.getElementById('fast-buy-adv');
+    const advType = document.getElementById('adv-type');
+    const buyAdvDaysCount = document.getElementById('buy-adv-days-count');
+    const isAdvBuyAutoComplete = document.getElementById('fast-buy-auto-complete');
 
     return {
         isOpenSettings, isLastActivity, isOpenStatistics, isCopyableUserId, isCopyableBookId,
         isRedirectToElibBot, isRedirectToYandexSearch, isBalanceTracking,
-        isShowThanksCount, isReferralsSummary
+        isShowThanksCount, isReferralsSummary, isFastBuyAdv, advType, buyAdvDaysCount, isAdvBuyAutoComplete
     }
 }
 
@@ -68,7 +72,19 @@ function getSettingValuesFromDOM() {
     for (const key in elements) {
         if (elements.hasOwnProperty(key)) {
             const element = elements[key];
-            newSettings[key] = element.checked; // Предполагается, что все элементы являются чекбоксами
+            // Если элемент является checkbox
+            if (element.type === 'checkbox') {
+                newSettings[key] = element.checked;
+            } 
+            // Если элемент является select
+            else if (element.type === 'select-one') {
+                newSettings[key] = element.value;
+            }
+            // Если элемент является number типом
+            else if (element.type === 'number') {
+                newSettings[key] = (element.value !== "") ? parseInt(element.value) : 0;
+            }
+            // Можно добавить обработку других типов, если появятся
         }
     }
 
@@ -77,14 +93,25 @@ function getSettingValuesFromDOM() {
 
 function setSettingsValuesToDom(settings) {
     const elements = getSettingElementsFromDOM();
-    console.log(settings);
 
     // Пройти по всем элементам и установить их значения
     for (const key in elements) {
         if (elements.hasOwnProperty(key)) {
             const element = elements[key];
             if (settings.hasOwnProperty(key)) {
-                element.checked = settings[key]; // Устанавливаем значение чекбокса
+                // Если элемент является checkbox
+                if (element.type === 'checkbox') {
+                    element.checked = settings[key];
+                }
+                // Если элемент является select
+                else if (element.tagName === 'SELECT') {
+                    element.value = settings[key];
+                }
+                // Если элемент является number типом
+                else if (element.type === 'number') {
+                    element.value = settings[key];
+                }
+                // Можно добавить обработку других типов, если появятся
             }
         }
     }

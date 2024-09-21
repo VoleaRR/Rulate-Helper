@@ -9,7 +9,11 @@ chrome.runtime.onInstalled.addListener(function (details) {
         isRedirectToYandexSearch: true,
         isBalanceTracking: true,
         isShowThanksCount: false,
-        isReferralsSummary: true
+        isReferralsSummary: true,
+        isFastBuyAdv: true,
+        advType: "recomendation",
+        buyAdvDaysCount: 1,
+        isAdvBuyAutoComplete: false
     };
 
     chrome.storage.local.get('settings', (result) => {

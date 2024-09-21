@@ -1,5 +1,3 @@
-// let userSettings;
-
 loadSettings().then(() => {
     handleBooksPage();
 });
@@ -19,9 +17,9 @@ function handleBooksPage() {
     const accountId = getcurrentAccountId();
 
     if (userPageRegex.test(currentUrl)) {
-        const pageContent = document.querySelector(".for_table_container").querySelector("tbody");
+        const pageContent = document.querySelector(".for_table_container");
         if (pageContent) {
-            const bookElements = pageContent.querySelectorAll("tr");
+            const bookElements = pageContent.querySelector("tbody").querySelectorAll("tr");
             handleBooksData(bookElements, "user", accountId)
         }
     } else if (catalogPageRegex.test(currentUrl)) {
@@ -46,6 +44,7 @@ function handleBooksData(bookElements, page, accountId) {
         if (page === "user" && currentUrl.includes(accountId)) {
             setLinkToBookStatistic(bookEl, emTags);
             setButtonToBookSettings(bookEl);
+            setButtonForBuyAdv(bookEl);
         } else if (page === "user") {
             setCopyableBookId(bookEl);
         }
@@ -54,22 +53,75 @@ function handleBooksData(bookElements, page, accountId) {
     });
 }
 
-function setButtonToBookSettings(bookEl) {
+function setButtonForBuyAdv(bookEl) {
+    if (!userSettings.isFastBuyAdv) return;
     const firstTdElement = bookEl.querySelector("td");
+
+    const iElement = firstTdElement.querySelector("i")
+    if (iElement) {
+        firstTdElement.removeChild(firstTdElement.querySelector("i"))
+    }
 
     const firstAElement = bookEl.querySelector("a")
     const linkToBookSettings = firstAElement.getAttribute("href") + "/edit/info"
 
+    const svgPath = "M143-247.5 90-300l287.5-289 157 157L743-637.5H638v-75h232v232h-75v-105L535-325 378-482 143-247.5Z"
+    const button = createButtonOnSideBook("btn-buy-adv", "Купить рекламу", svgPath);
+
+    button.addEventListener("click", () => {
+        updateStorageForBuyAdv();
+        window.open(linkToBookSettings);
+    });
+
+    firstTdElement.appendChild(button);
+
+}
+
+function updateStorageForBuyAdv() {
+    chrome.storage.local.remove('buyAdvData', () => {
+        console.log('Объект buyAdv был удален.');
+    });
+
+    const currentTime = Date.now();
+    chrome.storage.local.set({ buyAdvData: { createdAt: currentTime } }, () => {
+        console.log('Данные о покупке рекламы сохранены.');
+    });
+}
+
+function setButtonToBookSettings(bookEl) {
+    if (!userSettings.isOpenSettings) return;
+    const firstTdElement = bookEl.querySelector("td");
+
+    const iElement = firstTdElement.querySelector("i")
+    if (iElement) {
+        firstTdElement.removeChild(firstTdElement.querySelector("i"))
+    }
+
+    const firstAElement = bookEl.querySelector("a")
+    const linkToBookSettings = firstAElement.getAttribute("href") + "/edit/info"
+
+    const svgPath = "m405.38-120-14.46-115.69q-19.15-5.77-41.42-18.16-22.27-12.38-37.88-26.53L204.92-235l-74.61-130 92.23-69.54q-1.77-10.84-2.92-22.34-1.16-11.5-1.16-22.35 0-10.08 1.16-21.19 1.15-11.12 2.92-25.04L130.31-595l74.61-128.46 105.93 44.61q17.92-14.92 38.77-26.92 20.84-12 40.53-18.54L405.38-840h149.24l14.46 116.46q23 8.08 40.65 18.54 17.65 10.46 36.35 26.15l109-44.61L829.69-595l-95.31 71.85q3.31 12.38 3.7 22.73.38 10.34.38 20.42 0 9.31-.77 19.65-.77 10.35-3.54 25.04L827.92-365l-74.61 130-107.23-46.15q-18.7 15.69-37.62 26.92-18.92 11.23-39.38 17.77L554.62-120H405.38ZM440-160h78.23L533-268.31q30.23-8 54.42-21.96 24.2-13.96 49.27-38.27L736.46-286l39.77-68-87.54-65.77q5-17.08 6.62-31.42 1.61-14.35 1.61-28.81 0-15.23-1.61-28.81-1.62-13.57-6.62-29.88L777.77-606 738-674l-102.08 42.77q-18.15-19.92-47.73-37.35-29.57-17.42-55.96-23.11L520-800h-79.77l-12.46 107.54q-30.23 6.46-55.58 20.81-25.34 14.34-50.42 39.42L222-674l-39.77 68L269-541.23q-5 13.46-7 29.23t-2 32.77q0 15.23 2 30.23t6.23 29.23l-86 65.77L222-286l99-42q23.54 23.77 48.88 38.12 25.35 14.34 57.12 22.34L440-160Zm38.92-220q41.85 0 70.93-29.08 29.07-29.07 29.07-70.92t-29.07-70.92Q520.77-580 478.92-580q-42.07 0-71.04 29.08-28.96 29.07-28.96 70.92t28.96 70.92Q436.85-380 478.92-380ZM480-480Z";
+    const button = createButtonOnSideBook("btn-settings-book", "Перейти в настройки книги", svgPath)
+    firstTdElement.appendChild(button);
+
+    // add listener so on click will be open a book settings
+    button.addEventListener("click", () => {
+        window.open(linkToBookSettings)
+    });
+}
+
+
+function createButtonOnSideBook(className, title, svgPath) {
     const button = document.createElement('button');
+    button.classList.add(className)
     button.style.width = '16px';
     button.style.height = '16px';
     button.style.padding = '0';
     button.style.border = 'none';
     button.style.background = 'none';
-    // button.style.margin = "0px";
     button.style.cursor = 'pointer';
-    button.title = "Перейти в настройки книги"
-    
+    button.title = title;
+
     // Создаем SVG
     const svgNS = "http://www.w3.org/2000/svg"; // Пространство имен SVG
     const svg = document.createElementNS(svgNS, "svg");
@@ -80,19 +132,14 @@ function setButtonToBookSettings(bookEl) {
 
     // Создаем путь внутри SVG
     const path = document.createElementNS(svgNS, "path");
-    path.setAttribute("d", "m405.38-120-14.46-115.69q-19.15-5.77-41.42-18.16-22.27-12.38-37.88-26.53L204.92-235l-74.61-130 92.23-69.54q-1.77-10.84-2.92-22.34-1.16-11.5-1.16-22.35 0-10.08 1.16-21.19 1.15-11.12 2.92-25.04L130.31-595l74.61-128.46 105.93 44.61q17.92-14.92 38.77-26.92 20.84-12 40.53-18.54L405.38-840h149.24l14.46 116.46q23 8.08 40.65 18.54 17.65 10.46 36.35 26.15l109-44.61L829.69-595l-95.31 71.85q3.31 12.38 3.7 22.73.38 10.34.38 20.42 0 9.31-.77 19.65-.77 10.35-3.54 25.04L827.92-365l-74.61 130-107.23-46.15q-18.7 15.69-37.62 26.92-18.92 11.23-39.38 17.77L554.62-120H405.38ZM440-160h78.23L533-268.31q30.23-8 54.42-21.96 24.2-13.96 49.27-38.27L736.46-286l39.77-68-87.54-65.77q5-17.08 6.62-31.42 1.61-14.35 1.61-28.81 0-15.23-1.61-28.81-1.62-13.57-6.62-29.88L777.77-606 738-674l-102.08 42.77q-18.15-19.92-47.73-37.35-29.57-17.42-55.96-23.11L520-800h-79.77l-12.46 107.54q-30.23 6.46-55.58 20.81-25.34 14.34-50.42 39.42L222-674l-39.77 68L269-541.23q-5 13.46-7 29.23t-2 32.77q0 15.23 2 30.23t6.23 29.23l-86 65.77L222-286l99-42q23.54 23.77 48.88 38.12 25.35 14.34 57.12 22.34L440-160Zm38.92-220q41.85 0 70.93-29.08 29.07-29.07 29.07-70.92t-29.07-70.92Q520.77-580 478.92-580q-42.07 0-71.04 29.08-28.96 29.07-28.96 70.92t28.96 70.92Q436.85-380 478.92-380ZM480-480Z");
+    path.setAttribute("d", svgPath);
 
     // Вставляем путь в SVG
     svg.appendChild(path);
 
     // Вставляем SVG в кнопку
     button.appendChild(svg);
-    firstTdElement.appendChild(button);
-
-    // add listener so on click will be open a book settings
-    button.addEventListener("click", () => {
-        window.open(linkToBookSettings)
-    });
+    return button
 }
 
 function setCopyableBookId(bookElement) {
