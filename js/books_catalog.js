@@ -282,4 +282,4 @@ function setLinkToBookStatistic(tdElement, emTags) {
         aNewElementForStatistic.target = "_blank";
         lastEm.insertAdjacentElement("afterend", aNewElementForStatistic)
     }
-};
+}
