@@ -12,6 +12,8 @@ const currentUrl = window.location.href;
 const userPageRegex = /https:\/\/tl\.rulate\.ru\/users/;
 const catalogPageRegex = /https:\/\/tl\.rulate\.ru\/search\?.*$/;
 
+const accountId = getcurrentAccountId();
+let isOwnerPage = currentUrl.includes(accountId)
 
 function handleBooksPage() {
     const accountId = getcurrentAccountId();
@@ -20,13 +22,13 @@ function handleBooksPage() {
         const pageContent = document.querySelector(".for_table_container");
         if (pageContent) {
             const bookElements = pageContent.querySelector("tbody").querySelectorAll("tr");
-            handleBooksData(bookElements, "user", accountId)
+            handleBooksData(bookElements, "user")
         }
     } else if (catalogPageRegex.test(currentUrl)) {
         const pageContent = document.querySelector(".search-results");
         if (pageContent) {
             const bookElements = pageContent.querySelectorAll("li");
-            handleBooksData(bookElements, "catalog", accountId)
+            handleBooksData(bookElements, "catalog")
         }
     } else {
         console.log("Это не одна из ожидаемых страниц");
@@ -35,20 +37,20 @@ function handleBooksPage() {
 }
 
 
-function handleBooksData(bookElements, page, accountId) {
+function handleBooksData(bookElements, page) {
     bookElements.forEach(bookEl => {
         const emTags = bookEl.querySelectorAll("em");
-        const styleForBookStatus = getBookStatus(emTags);
+        const backgroundTdColor = getBookStatus(emTags);
         const firstAElement = bookEl.querySelector("a");
 
-        if (page === "user" && currentUrl.includes(accountId)) {
+        if (page === "user" && isOwnerPage) {
             setLinkToBookStatistic(bookEl, emTags);
             setButtonToBookSettings(bookEl);
             setButtonForBuyAdv(bookEl);
         } else if (page === "user") {
             setCopyableBookId(bookEl);
         }
-        setTimePassedAndButtonForTransferRequest(emTags, styleForBookStatus, firstAElement);
+        setTimePassedAndButtonForTransferRequest(emTags, backgroundTdColor, firstAElement, bookEl);
 
     });
 }
@@ -200,7 +202,7 @@ function showTooltip(message) {
     }, 1000);
 }
 
-function setTimePassedAndButtonForTransferRequest(emTags, styleForBookStatus, linkToBookElement) {
+function setTimePassedAndButtonForTransferRequest(emTags, backgroundTdColor, linkToBookElement, bookEl) {
     // Add the number of days since the last activity for every book on user page,
     // also, with some logic, adds text styles to make notices more visible
     if (!userSettings.isLastActivity) return;
@@ -216,46 +218,50 @@ function setTimePassedAndButtonForTransferRequest(emTags, styleForBookStatus, li
             }
             const daysPassed = getDaysPassed(dateParts);
             const badge = document.createElement("em");
-            if (daysPassed > 30 && styleForBookStatus === "green") {
-                badge.style.color = styleForBookStatus;
-                badge.style.fontWeight = "bold";
+            if (daysPassed > 30) {
+                bookEl.style.backgroundColor = backgroundTdColor;
+                // badge.style.fontWeight = "bold";
             }
 
             badge.textContent = ` (Прошло ${daysPassed} дней)`;
             em.insertAdjacentElement("afterend", badge);
 
             const linkToBook = linkToBookElement.getAttribute("href")
-            const btn = createButtonToAdminDM(linkToBook);
+            const btn = createButtonToAdminDM(linkToBook, badge);
             badge.insertAdjacentElement("afterend", btn);
 
         }
     });
 }
 
-function createButtonToAdminDM(linkToBook) {
+function createButtonToAdminDM(linkToBook, main_tag) {
     // create button that allow to open new window DM with admin, where have already inserted text
     // for request book  
-    const btn = document.createElement("button");
-    btn.textContent = "Написать админу";
+    const emElement = main_tag.cloneNode(true);
+    const link = document.createElement("a");
+    emElement.textContent = ""
+    link.textContent = "Написать админу";
+    
+    // Стиль ссылки
+    link.style.backgroundColor = "rgba(0, 0, 0, 0)"; // Полупрозрачный фон
+    link.style.color = "black"; // Черный текст
+    link.style.textDecoration = "none"; // Без подчеркивания
+    link.style.fontSize = "11px"; // Размер шрифта
+    link.style.fontStyle = "italic";
+    link.style.marginLeft = "2px";
+    link.style.borderRadius = "5px"; // Закруглённые углы
+    link.style.cursor = "pointer"; // Указатель при наведении
+    link.style.opacity = "0.8"; // Полупрозрачность
+    link.style.transition = "opacity 0.3s"; // Плавное изменение прозрачности при наведении
 
-    btn.style.backgroundColor = "rgba(0, 0, 0, 0)"; // Полупрозрачный синий фон
-    btn.style.color = "black"; // Белый текст
-    btn.style.border = "none"; // Без рамки
-    btn.style.padding = "1px 3px"; // Внутренний отступ
-    btn.style.fontSize = "11px"; // Размер шрифта
-    btn.style.fontStyle = "italic";
-    btn.style.borderRadius = "5px"; // Закруглённые углы
-    btn.style.cursor = "pointer"; // Указатель при наведении
-    btn.style.opacity = "0.8"; // Полупрозрачность
-    btn.style.transition = "opacity 0.3s"; // Плавное изменение прозрачности при наведении
-
-    btn.addEventListener("click", () => {
-        const adminDM = "https://tl.rulate.ru/messages/chat/8?Mail_page=999"
-        chrome.storage.local.set({ requestBookLink: "https://tl.rulate.ru" + linkToBook })
-        window.open(adminDM)
+    link.addEventListener("click", (event) => {
+        event.preventDefault(); // Отключаем стандартное поведение ссылки
+        const adminDM = "https://tl.rulate.ru/messages/chat/8?Mail_page=999";
+        chrome.storage.local.set({ requestBookLink: "https://tl.rulate.ru" + linkToBook });
+        window.open(adminDM);
     });
-
-    return btn;
+    emElement.appendChild(link)
+    return emElement;
 
 }
 
@@ -279,12 +285,13 @@ function getBookStatus(emTags) {
     // Returns a string with color type for text based on translation status book 
     for (em of emTags) {
         if (em.textContent.startsWith("состояние перевода:")) {
-            statusBook = em.textContent.split(": ")[1]
-            if (statusBook === "В работе") {
-                return "green";
-            } else {
-                return "black";
-            };
+            spanElement = em.querySelector("span")
+            // if there is no attr color, it means that book status is "in progress". Also it check if user on
+            // himself page, if yes, then background color becomes red, if no (foreign user  page)
+            // it comes to a green
+            if (!spanElement.style.color) { 
+                return (isOwnerPage) ? "#ff000053" : "#22ff0070";
+            }
         };
     };
 };

@@ -40,3 +40,26 @@ chrome.runtime.onInstalled.addListener(function (details) {
 chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({ url: chrome.runtime.getURL('pages/settings.html') });
 });
+
+
+// let isDarkThemeApplied = false;  // Переменная для отслеживания состояния
+
+// chrome.action.onClicked.addListener((tab) => {
+//   if (isDarkThemeApplied) {
+//     // Если стили уже применены, удаляем их
+//     chrome.scripting.removeCSS({
+//       target: { tabId: tab.id },
+//       files: ["js/black/black_styles.css"]
+//     }, () => {
+//       isDarkThemeApplied = false;  // Обновляем состояние
+//     });
+//   } else {
+//     // Если стили не применены, вставляем их
+//     chrome.scripting.insertCSS({
+//       target: { tabId: tab.id },
+//       files: ["js/black/black_styles.css"]
+//     }, () => {
+//       isDarkThemeApplied = true;  // Обновляем состояние
+//     });
+//   }
+// });

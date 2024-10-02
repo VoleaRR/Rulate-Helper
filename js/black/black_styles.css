@@ -1,0 +1,91 @@
+:root {
+    --bg-inverse: #333333 !important;  /* Новый темный фон */
+    --text-on-primary: #ffffff !important;  /* Новый цвет текста */
+    --border-active: 1px solid rgba(255, 255, 255, 0.2) !important;  /* Новая активная рамка */
+    --primary: #bebebe !important;  /* Новый основной цвет */
+    --text-primary: #fff !important;
+    --text-secondary: #fff !important;
+
+    --rh-bg-main: #131313;
+    --rh-bg-hover: #2d2d2f;
+    --rh-main-text: #ffffff;
+    
+    --rh-bg-top-header: #171717;
+
+}
+
+/* Общие стили */
+body, html {
+    background-color: var(--rh-bg-main) !important; 
+    color: var(--rh-main-text) !important;
+}
+
+.main-header {
+    background-color: var(--rh-bg-top-header) !important; 
+    color: var(--rh-main-text) !important;
+}
+
+.header-item_dropbtn {
+    color: #ffffff !important;
+}
+
+
+/* HEADER START */
+.header-item_dropdown-content {
+    background-color: var(--rh-bg-main) !important;
+}
+.main-header-create_dropdown-menu {
+    background-color: var(--rh-bg-main) !important;
+}
+.main-header-notifications_dropdown-menu {
+    background-color: var(--rh-bg-main) !important;
+}
+.main-header-avatar_dropdown-menu {
+    background-color: var(--rh-bg-main) !important;
+}
+
+.main-header-create_dropdown-menu a {
+    color: var(--rh-main-text) !important;
+}
+.main-header-notifications_dropdown-menu a {
+    color: var(--rh-main-text) !important;
+}
+.main-header-avatar_dropdown-menu a {
+    color: var(--rh-main-text) !important;
+}
+.header-item_dropdown-content a {
+    color: var(--rh-main-text) !important;
+}
+
+.main-header-create_dropdown-menu a:hover {
+    background-color: var(--rh-bg-hover) !important;
+}
+.main-header-notifications_dropdown-menu a:hover {
+    background-color: var(--rh-bg-hover) !important;
+}
+.main-header-avatar_dropdown-menu a:hover {
+    background-color: var(--rh-bg-hover) !important;
+}
+.header-item_dropdown-content a:hover {
+    background-color: var(--rh-bg-hover) !important;
+}
+
+/* HEADER END */
+
+.header-item_menu-divider {
+    background-color: #464646 !important;
+}
+
+.input-medium.search-query.span3 {
+    background-color: var(--rh-bg-hover) !important;
+    border: 1px solid #454545;
+}
+
+.form-search .btn {
+    background-color: var(--bg-inverse) !important;  /* Темный фон */
+    color: var(--text-on-primary) !important;  /* Белый текст */
+    border: 1px solid var(--border-active) !important;  /* Темная рамка */
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.1) !important;  /* Тень */
+    background-image: none !important;  /* Убираем градиент фона */
+    text-shadow: none !important;  /* Убираем текстовую тень */
+}

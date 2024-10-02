@@ -1,6 +1,6 @@
 {
   "name": "Rulate Helper",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "author": "kimyonavl@gmail.com",
   "manifest_version": 3,
   "description": "It is a helper for the translators of the Rulate website. Created by VolteaRR",
@@ -14,7 +14,9 @@
   },
   "permissions": [
     "storage",
-    "tabs"
+    "tabs",
+    "activeTab", 
+    "scripting"
   ],
   "background": {
     "service_worker": "js/service_worker.js"
